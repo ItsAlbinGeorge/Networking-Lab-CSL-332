@@ -1,0 +1,241 @@
+Basics of Network Configuration Files and Networking Commands in Linux
+======================================================================
+
+IFCONFIG Command
+****************
+           ifconfig(interface configuration) command  is used to initialize an interface,assign IP Address to interface and enable or disable interface on demand.With this command you can view IP Address and Hardware/MAC Address assign to interface and also MTU(Maximum transmission Unit) size.eth0 is the first Ethernet interface.This type of interface is usually NIC connected to the network.lo is the loopback interface.This is a special network interface that the sytsem uses to communicate with itself.
+Example:-ifconfig
+np0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1000
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        ether 08:00:27:24:fc:22  txqueuelen 1000  (Ethernet)
+        RX packets 291  bytes 242905 (242.9 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 398  bytes 42901 (42.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 844  bytes 66774 (66.7 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 844  bytes 66774 (66.7 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*ifconfig -a
+               This produce output similar to ifconfig but also shows all inactive interfaces.
+Example:-ifconfig -a
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        inet6 fe80::1c5d:da9e:3ee8:33cb  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:24:fc:22  txqueuelen 1000  (Ethernet)
+        RX packets 182  bytes 217259 (217.2 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 243  bytes 23020 (23.0 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 807  bytes 61883 (61.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 807  bytes 61883 (61.8 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*ifconfig enp0s3
+               Displays the configuration of the device eth0 only.
+Example:-ifconfig enp0s3
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        inet6 fe80::1c5d:da9e:3ee8:33cb  prefixlen 64  scopeid 0x20<link>
+        ether 08:00:27:24:fc:22  txqueuelen 1000  (Ethernet)
+        RX packets 249  bytes 237818 (237.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 333  bytes 36965 (36.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*ifconfig -s
+              Displays only a shortlist of all interfaces.
+Example:-ifconfig -s
+Iface      MTU    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg
+enp0s3    1500      251      0      0 0           341      0      0      0 BMRU
+lo       65536      838      0      0 0           838      0      0      0 LRU
+
+*ifconfig <interfacename> down
+             Disable a network interface.
+Example:-sudo ifconfig lo down
+               :-ifconfig
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1000
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        ether 08:00:27:24:fc:22  txqueuelen 1000  (Ethernet)
+        RX packets 301  bytes 243625 (243.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 412  bytes 43981 (43.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*ifconfig <interfacename> up
+              Activate a network interface that is not in active state.
+Example:-sudo ifconfig lo up
+               :-ifconfig
+enp0s3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1000
+        inet 10.0.2.15  netmask 255.255.255.0  broadcast 10.0.2.255
+        ether 08:00:27:24:fc:22  txqueuelen 1000  (Ethernet)
+        RX packets 312  bytes 244806 (244.8 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 424  bytes 44926 (44.9 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 857  bytes 68581 (68.5 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 857  bytes 68581 (68.5 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*sudo ifconfig <interfacename> <ipaddress>
+              Assign IP address to a specific interface.
+Example:-sudo ifconfig lo 127.1.0.1
+              :-ifconfig lo
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.1.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 875  bytes 70747 (70.7 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 875  bytes 70747 (70.7 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*sudo ifconfig <interfacename> <netmask>
+             Assign a network mask to an interface.
+Example:-sudo ifconfig lo 255.255.0.0
+              :-ifconfig lo
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 255.255.0.0  netmask 255.255.255.255
+        inet6 ::1  prefixlen 128  scopeid 0x10<host>
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 984  bytes 81695 (81.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 984  bytes 81695 (81.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+*ifconfig grep broadcast
+             View broadcast address of an interface.
+
+*sudo ifconfig <interfacename> mtu <mtusize>
+             Set MTU for an interface.
+Example:-sudo ifconfig enp0s3 mtu 1000
+
+*sudo ifconfig <interfacename> promisc
+           Enable promiscus mode.Allows a network device to accept all packets.This mode is used to analyze the network activity.
+Example:-sudo ifconfig enp0s3 promisc
+
+*sudo ifconfig <interfacename> -promisc
+             Disable promiscus mode.
+Example:-sudo ifconfig enp0s3 promisc
+
+PING Command
+************
+             PING(Packet Internet Groper) command is the best way to test connectivity between two nodes.Whether it is Local Area Network(LAN) or Wide Area Network(WAN).Ping use ICMP(Internet Control Message Protocol) to communicate to other devices.You can ping host name of IP address using below command.Packet loss is shown by discontinuity of sequence numbers.
+Example:-ping www.google.com
+PING www.google.com (142.250.182.36) 56(84) bytes of data.
+64 bytes from maa05s19-in-f4.1e100.net (142.250.182.36): icmp_seq=1 ttl=55 time=79.1 ms
+64 bytes from maa05s19-in-f4.1e100.net (142.250.182.36): icmp_seq=2 ttl=55 time=148 ms
+64 bytes from maa05s19-in-f4.1e100.net (142.250.182.36): icmp_seq=3 ttl=55 time=138 ms
+64 bytes from maa05s19-in-f4.1e100.net (142.250.182.36): icmp_seq=4 ttl=55 time=112 ms
+64 bytes from maa05s19-in-f4.1e100.net (142.250.182.36): icmp_seq=5 ttl=55 time=80.5 ms
+64 bytes from maa05s19-in-f4.1e100.net (142.250.182.36): icmp_seq=6 ttl=55 time=83.6 ms
+          
+TRACEROUTE Command
+******************
+             Traceroute is a network troubleshooting utility which shows number of hops taken to reach destination also determine packets travelling path.Below we are tracing route to global DNS Server IP address and able to reach destination also shows path of that packet in travelling.
+Example:-traceroute 8.8.4.4
+traceroute to 8.8.4.4 (8.8.4.4), 30 hops max, 60 byte packets
+ 1  _gateway (10.0.2.2)  0.261 ms  0.508 ms  0.279 ms
+ 2  * * *
+ 3  * * *
+ 4  * * *
+ 5  * * *
+ 6  * * *
+ 7  * * *
+ 8  * * *
+ 9  * * *
+10  * * *
+
+NETSTAT Command
+***************
+             Netstat command displays connection info,routing table information,etc...to displays routing table information use option as -r.
+Example:-netstat -r
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+default         _gateway        0.0.0.0         UG        0 0          0 enp0s3
+10.0.2.0        0.0.0.0         255.255.255.0   U         0 0          0 enp0s3
+link-local      0.0.0.0         255.255.0.0     U         0 0          0 enp0s3
+
+DIG Command
+***********
+               Dig(domain Information Groper) query DNS related information like record,CNAME,MXRecord,etc... This Command mainly used to troubleshoot DNS related query.
+Example:-dig www.google.com
+; <<>> DiG 9.18.18-0ubuntu0.22.04.1-Ubuntu <<>> www.google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 38251
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;www.google.com.			IN	A
+
+;; ANSWER SECTION:
+www.google.com.		77	IN	A	142.250.182.36
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Mon Feb 05 19:23:36 IST 2024
+;; MSG SIZE  rcvd: 59
+
+NSLOOKUP Command
+****************
+               nslookup command also used to find out DNS related query.The following example shows a record(IP address) of google.com.
+Example:-nslookup www.gooogle.com
+Server:		127.0.0.53
+Address:	127.0.0.53#53
+
+Non-authoritative answer:
+Name:	www.google.com
+Address: 142.250.182.36
+Name:	www.google.com
+Address: 2404:6800:4007:81a::2004
+
+ROUTE Command
+*************
+              Route command also show and manipulate ip routing table.To see default routing table in Linux,type the following command.
+Example:-route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+default         _gateway        0.0.0.0         UG    100    0        0 enp0s3
+10.0.2.0        0.0.0.0         255.255.255.0   U     100    0        0 enp0s3
+link-local      0.0.0.0         255.255.0.0     U     1000   0        0 enp0s3
+
+HOST Command
+************
+               Host command is used to find name to IP or IP to name in Ipv4 or IPV6 alsi query DS records.
+Example:-host www.google.com
+www.google.com has address 142.250.182.36
+www.google.com has IPv6 address 2404:6800:4007:81a::2004
+
+ARP Command
+***********
+               ARP(Address Resolution Protocol) is useful to view or add the contents of the kernel’s ARP tables.to see default table use the command as
+Example:-arp -e
+Address                  HWtype  HWaddress           Flags Mask            Iface
+_gateway                 ether   52:54:00:10:35:04   C                     enp0s3
+
+HOSTNAME
+********
+             Retrieves the name of the computer.
+Example:-hostname
+albin-Lap
